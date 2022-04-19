@@ -1,0 +1,180 @@
+from stories.models import *
+>>> recipes = Recipe.objects.all()
+>>> recipes
+<QuerySet [<Recipe: recipe #1>]>
+>>> tag = Tag(title="Tag #3")
+>>> tag.save()
+>>> tag2 = Tag.objects.create(title='Tag #4')
+>>> tag.title
+'Tag #3'
+>>> tag.created_at
+datetime.datetime(2022, 4, 19, 15, 29, 26, 516760, tzinfo=datetime.timezone.utc)
+>>> tag2
+<Tag: Tag object (4)>
+>>> tag.title = 'Tag ##3'
+>>> tag.save()
+>>> Tag.objects.all()
+<QuerySet [<Tag: Tag object (1)>, <Tag: Tag object (2)>, <Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> tags = Tag.objects.filter(title='Tag #4')
+>>> tags
+<QuerySet [<Tag: Tag object (4)>]>
+>>> tags = Tag.objects.filter(title__contains='Tag')
+>>> tags
+<QuerySet [<Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> tags = Tag.objects.filter(title__contains='tag')
+>>> tags
+<QuerySet []>
+>>> tags = Tag.objects.filter(title__icontains='tag')
+>>> tags
+<QuerySet [<Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> tags = Tag.objects.filter(title__icontains='TAG')
+>>> tags = Tag.objects.filter(title__icontains='tag')
+>>> tags
+<QuerySet [<Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> tags
+<QuerySet [<Tag: Tag object (4)>]>
+>>> query(tags)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'query' is not defined
+>>> print(tags.query)
+SELECT "stories_tag"."id", "stories_tag"."title", "stories_tag"."created_at", "stories_tag"."updated_at" FROM "stories_tag" WHERE UPPER("stories_tag"."title"::text) LIKE UPPER(%tag%)
+>>> print(tags)
+<QuerySet [<Tag: Tag object (4)>]>
+>>> tags
+<QuerySet [<Tag: Tag object (4)>]>
+>>> print(tags)
+<QuerySet [<Tag: Tag object (4)>]>
+>>> new_tags = tags.filter(title='t')
+>>> new_tags
+<QuerySet []>
+>>> tags = Tag.objects.all()
+>>> tags
+<QuerySet [<Tag: Tag object (1)>, <Tag: Tag object (2)>, <Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> tags.filter(title__icontains='Tag')
+<QuerySet [<Tag: Tag object (4)>]>
+>>> Tag.objects.filter(created_at__day=19)
+<QuerySet [<Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> Tag.objects.filter(created_at__year=2022)
+<QuerySet [<Tag: Tag object (1)>, <Tag: Tag object (2)>, <Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> Tag.objects.get(id=1)
+<Tag: Tag object (1)>
+>>> Tag.objects.get(id=2)
+<Tag: Tag object (2)>
+>>> Tag.objects.filter(id=2)
+<QuerySet [<Tag: Tag object (2)>]>
+>>> tag1 = Tag.objects.get(id=1)
+>>> tags = Tag.objects.filter(id=2)
+>>> tag1.title
+'Sport'
+>>> tags.title
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'title'
+>>> tags[0].title
+'Food'
+>>> tag1 = Tag.objects.get(id=6)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/Users/idrissabanli/TAGroups/kappa_lesson_codes/food_stories_project/.venv/lib/python3.9/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/idrissabanli/TAGroups/kappa_lesson_codes/food_stories_project/.venv/lib/python3.9/site-packages/django/db/models/query.py", line 496, in get
+    raise self.model.DoesNotExist(
+stories.models.Tag.DoesNotExist: Tag matching query does not exist.
+>>> tags = Tag.objects.filter(id=6)
+>>> tags
+<QuerySet []>
+>>> tags = Tag.objects.filter(id=6).first()
+>>> tags
+>>> tags = Tag.objects.filter(id=2).first()
+>>> tags.title
+'Food'
+>>> Tag.objects.all()
+<QuerySet [<Tag: Tag object (1)>, <Tag: Tag object (2)>, <Tag: Tag object (4)>, <Tag: Tag object (3)>]>
+>>> Tag.objects.all()[:3]
+<QuerySet [<Tag: Tag object (1)>, <Tag: Tag object (2)>, <Tag: Tag object (4)>]>
+>>> tags = Tag.objects.all()[:3]
+>>> print(tags.query)
+SELECT "stories_tag"."id", "stories_tag"."title", "stories_tag"."created_at", "stories_tag"."updated_at" FROM "stories_tag" LIMIT 3
+>>> tags = Tag.objects.all()[2:3]
+>>> tags
+<QuerySet [<Tag: Tag object (4)>]>
+>>> tags = Tag.objects.all().order_by('created_at',)
+>>> tags
+<QuerySet [<Tag: Tag object (1)>, <Tag: Tag object (2)>, <Tag: Tag object (3)>, <Tag: Tag object (4)>]>
+>>> tags = Tag.objects.all().order_by('-created_at',)
+>>> tags
+<QuerySet [<Tag: Tag object (4)>, <Tag: Tag object (3)>, <Tag: Tag object (2)>, <Tag: Tag object (1)>]>
+>>> cat = Category.objects.first()
+>>> cat
+<Category: Cat 4>
+>>> user = User.objects.first()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'User' is not defined
+>>> user = USER.objects.first()
+>>> user
+<User: idris>
+>>> recipe = Recipe.objects.create(title='Recipe #2', short_description='sljkdnf', content='cosdf', image='image.png', category=cat, author=user)
+>>> recipe = Recipe.objects.create(title='Recipe #2', short_description='sljkdnf', content='cosdf', image='image.png', category=1, author=1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/Users/idrissabanli/TAGroups/kappa_lesson_codes/food_stories_project/.venv/lib/python3.9/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/idrissabanli/TAGroups/kappa_lesson_codes/food_stories_project/.venv/lib/python3.9/site-packages/django/db/models/query.py", line 512, in create
+    obj = self.model(**kwargs)
+  File "/Users/idrissabanli/TAGroups/kappa_lesson_codes/food_stories_project/.venv/lib/python3.9/site-packages/django/db/models/base.py", line 541, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/Users/idrissabanli/TAGroups/kappa_lesson_codes/food_stories_project/.venv/lib/python3.9/site-packages/django/db/models/fields/related_descriptors.py", line 235, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Recipe.category" must be a "Category" instance.
+>>> recipe.category.title
+'Cat 4'
+>>> recipe
+<Recipe: Recipe #2>
+>>> recipe.category
+<Category: Cat 4>
+>>> recipe.category.title
+'Cat 4'
+>>> recipe.title
+'Recipe #2'
+>>> recipe.short_description
+'sljkdnf'
+>>> recipe.category
+<Category: Cat 4>
+>>> recipe.category.title
+'Cat 4'
+>>> tags 
+<QuerySet [<Tag: Tag object (4)>, <Tag: Tag object (3)>, <Tag: Tag object (2)>, <Tag: Tag object (1)>]>
+>>> recipe.tags.add(tags[0], tags[1], tags[2])
+>>> recipe.tags.remove(tags[0])
+>>> Recipe.objects.filter()
+<QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
+>>> Recipe.objects.filter(category__title__icontains='cat')
+<QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
+>>> Recipe.objects.filter(id=1)
+<QuerySet [<Recipe: recipe #1>]>
+>>> Recipe.objects.filter(id=1).first()
+<Recipe: recipe #1>
+>>> r = Recipe.objects.filter(id=1).first()
+>>> r
+<Recipe: recipe #1>
+>>> r.category
+<Category: Cat 1>
+>>> r.category.title
+'Cat 1'
+>>> cat
+<Category: Cat 4>
+>>> cat.recipe
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Category' object has no attribute 'recipe'
+>>> cat.recipe_set.all()
+<QuerySet [<Recipe: Recipe #2>]>
+>>> tags[0]
+<Tag: Tag object (4)>
+>>> tags[0].recipe_set.all()
+<QuerySet []>
+>>> tags[0].recipe_set.all()
+<QuerySet [<Recipe: Recipe #2>]>
+>>> 
