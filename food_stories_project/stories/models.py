@@ -40,3 +40,10 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+# t = Tag.objects.get(id=1) # title = 'food'
+# t.title = 'Tag'
+# print(t.title) # Tag
+
+# t2 = Tag.objects.get(id=1)
+# print(t2.title) # food

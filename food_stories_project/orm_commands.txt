@@ -178,3 +178,65 @@ AttributeError: 'Category' object has no attribute 'recipe'
 >>> tags[0].recipe_set.all()
 <QuerySet [<Recipe: Recipe #2>]>
 >>> 
+
+>>> Category.objects.values('title')
+<QuerySet [{'title': 'Cat 4'}, {'title': 'Cat 3'}, {'title': 'Cat 2'}, {'title': 'Cat 1'}]>
+>>> Category.objects.values('title', 'image')
+<QuerySet [{'title': 'Cat 4', 'image': ''}, {'title': 'Cat 3', 'image': ''}, {'title': 'Cat 2', 'image': 'media/categories/1_HIaI1bX.png'}, {'title': 'Cat 1', 'image': 'media/categories/1.png'}]>
+>>> Category.objects.values('title', 'image')
+<QuerySet [{'title': 'Cat 4', 'image': ''}, {'title': 'Cat 3', 'image': ''}, {'title': 'Cat 2', 'image': 'media/categories/1_HIaI1bX.png'}, {'title': 'Cat 1', 'image': 'media/categories/1.png'}]>
+>>> Category.objects.values('title', 'image', 'created_at')
+<QuerySet [{'title': 'Cat 4', 'image': '', 'created_at': datetime.datetime(2022, 4, 12, 16, 59, 9, 361643, tzinfo=datetime.timezone.utc)}, {'title': 'Cat 3', 'image': '', 'created_at': datetime.datetime(2022, 4, 12, 16, 58, 29, 728883, tzinfo=datetime.timezone.utc)}, {'title': 'Cat 2', 'image': 'media/categories/1_HIaI1bX.png', 'created_at': datetime.datetime(2022, 4, 12, 16, 51, 33, 962199, tzinfo=datetime.timezone.utc)}, {'title': 'Cat 1', 'image': 'media/categories/1.png', 'created_at': datetime.datetime(2022, 4, 12, 16, 45, 44, 870493, tzinfo=datetime.timezone.utc)}]>
+>>> Category.objects.values()
+<QuerySet [{'id': 5, 'title': 'Cat 4', 'image': '', 'created_at': datetime.datetime(2022, 4, 12, 16, 59, 9, 361643, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 4, 12, 16, 59, 9, 361660, tzinfo=datetime.timezone.utc)}, {'id': 4, 'title': 'Cat 3', 'image': '', 'created_at': datetime.datetime(2022, 4, 12, 16, 58, 29, 728883, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 4, 12, 16, 58, 29, 728935, tzinfo=datetime.timezone.utc)}, {'id': 2, 'title': 'Cat 2', 'image': 'media/categories/1_HIaI1bX.png', 'created_at': datetime.datetime(2022, 4, 12, 16, 51, 33, 962199, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 4, 12, 16, 51, 33, 962220, tzinfo=datetime.timezone.utc)}, {'id': 1, 'title': 'Cat 1', 'image': 'media/categories/1.png', 'created_at': datetime.datetime(2022, 4, 12, 16, 45, 44, 870493, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 4, 12, 16, 45, 44, 870526, tzinfo=datetime.timezone.utc)}]>
+>>> Category.objects.values('title')
+<QuerySet [{'title': 'Cat 4'}, {'title': 'Cat 3'}, {'title': 'Cat 2'}, {'title': 'Cat 1'}]>
+>>> Category.objects.all()
+<QuerySet [<Category: Cat 4>, <Category: Cat 3>, <Category: Cat 2>, <Category: Cat 1>]>
+>>> Category.objects.values_list('title')
+<QuerySet [('Cat 4',), ('Cat 3',), ('Cat 2',), ('Cat 1',)]>
+>>> Recipe.objects.all()
+<QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
+>>> Recipe.objects.all().distinct('category')
+<QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
+>>> Recipe.objects.all().distinct('category__id')
+<QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
+>>> Recipe.objects.all().distinct('category__id')
+<QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
+>>> Recipe.objects.all().distinct('category__id')
+<QuerySet [<Recipe: recipe #1>]>
+>>> Category.objects.all()
+<QuerySet [<Category: Cat 4>, <Category: Cat 3>, <Category: Cat 2>, <Category: Cat 1>]>
+>>> Category.objects.get_or_create(title='Cat 5', image='image.png')
+(<Category: Cat 5>, True)
+>>> Category.objects.all()
+<QuerySet [<Category: Cat 5>, <Category: Cat 4>, <Category: Cat 3>, <Category: Cat 2>, <Category: Cat 1>]>
+>>> 
+>>> Category.objects.get_or_create(title='Cat 5', image='image.png')
+(<Category: Cat 5>, False)
+>>> Category.objects.all()
+<QuerySet [<Category: Cat 5>, <Category: Cat 4>, <Category: Cat 3>, <Category: Cat 2>, <Category: Cat 1>]>
+>>> Category.objects.get_or_create(title='Cat 5', image='image2.png')
+(<Category: Cat 5>, True)
+>>> Category.objects.all()
+<QuerySet [<Category: Cat 5>, <Category: Cat 5>, <Category: Cat 4>, <Category: Cat 3>, <Category: Cat 2>, <Category: Cat 1>]>
+>>> obj, created = Category.objects.get_or_create(title='Cat 5', image='image2.png')
+>>> obj
+<Category: Cat 5>
+>>> created
+False
+>>> obj, created = Category.objects.get_or_create(title='Cat 5', image='image3.png')
+>>> obj
+<Category: Cat 5>
+>>> created
+True
+>>> from django.db.models import Q
+>>> Category.objects.filter(title="Cat 5", image="image.png")
+<QuerySet [<Category: Cat 5>]>
+>>> Category.objects.filter(title="Cat 5")
+<QuerySet [<Category: Cat 5>, <Category: Cat 5>, <Category: Cat 5>]>
+>>> Category.objects.filter(image="image.png")
+<QuerySet [<Category: Cat 5>]>
+>>> Category.objects.filter(Q(title="Cat 5") | Q(image="image.png"))
+<QuerySet [<Category: Cat 5>, <Category: Cat 5>, <Category: Cat 5>]>
+>>> from django.db.models import SUM, Avg, Count, Max
