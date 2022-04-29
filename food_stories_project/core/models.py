@@ -18,3 +18,15 @@ class Contact(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.full_name
+
+    # def serializer(self):
+    #     return {
+    #         'full_name': self.full_name,
+    #         'email': self.email,
+    #         'subject': self.subject,
+    #         'message': self.message,
+    #         'created_at': self.created_at
+    #     }
+
