@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_filters %}
 
 {% block content %}
 
@@ -21,8 +21,11 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row">
+            
             <div class="col-lg-9">
                 <div class="row">
+                    
+                    {{text|truncate:"2"}}
                     {% for recipe in recipes %}
                     <div class="col-md-6 col-lg-12 ftco-animate">
                         <div class="blog-entry d-lg-flex">
@@ -33,9 +36,9 @@
                                 </a>
                             </div>
                             <div class="text px-md-4 px-lg-5 half pt-3">
-                                <p class="meta d-flex"><span class="pr-3">Dessert</span><span class="ml-auto pl-3">March 01, 2018</span>
+                                <p class="meta d-flex"><span class="pr-3">Dessert</span><span class="ml-auto pl-3">{{ recipe.created_at|date:"F d, Y" }}</span>
                                 </p>
-                                <h3><a href="single.html">{{recipe.title}}</a></h3>
+                                <h3><a href="single.html"> {{ forloop.counter }}. {{recipe.title}}</a></h3>
                                 <p>A small river named Duden flows by their place and supplies it with the necessary
                                     regelialia. It is a paradisematic country, in which roasted parts of sentences fly
                                     into your mouth.
@@ -45,6 +48,8 @@
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <h1>Hec bir recipe tapilmadi</h1>
                    {% endfor %}
                 </div>
                 <div class="row mt-5">

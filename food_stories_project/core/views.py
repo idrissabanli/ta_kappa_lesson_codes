@@ -7,4 +7,5 @@ from django.http import HttpResponse
 
 
 def home(request):
+    # categories = Ca
     return render(request, 'index.html')

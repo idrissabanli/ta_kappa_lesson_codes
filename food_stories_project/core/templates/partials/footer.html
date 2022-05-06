@@ -1,3 +1,5 @@
+{% load custom_tags %}
+
 <footer class="ftco-footer ftco-footer-2 ftco-section">
     <div class="container">
         <div class="row mb-5">
@@ -27,12 +29,12 @@
             <div class="col-md">
                 <div class="ftco-footer-widget mb-4">
                     <h2 class="ftco-heading-2">Categories</h2>
+
                     <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">Food</a></li>
-                        <li><a href="#" class="py-2 d-block">Restaurant</a></li>
-                        <li><a href="#" class="py-2 d-block">Dessert</a></li>
-                        <li><a href="#" class="py-2 d-block">Lifestyle</a></li>
-                        <li><a href="#" class="py-2 d-block">Recipes</a></li>
+                        {% get_categories as categories %}
+                        {% for category in categories|slice:":5" %}
+                            <li><a href="#" class="py-2 d-block">{{ category.title }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
