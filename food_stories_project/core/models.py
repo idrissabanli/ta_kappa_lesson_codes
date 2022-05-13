@@ -10,7 +10,7 @@ class Subscriber(models.Model):
 
 
 class Contact(models.Model):
-    full_name = models.CharField(max_length=50)
+    full_name = models.CharField('Ad, soyad', max_length=50)
     email = models.EmailField(max_length=50)
     subject = models.CharField(max_length=150)
     message = models.TextField()

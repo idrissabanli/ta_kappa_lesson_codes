@@ -13,3 +13,4 @@ def recipes(request):
         'text': text
     }
     return render(request, 'recipes.html', context)
+
