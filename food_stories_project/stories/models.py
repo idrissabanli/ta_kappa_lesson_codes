@@ -6,7 +6,7 @@ USER = get_user_model()
 
 class Category(models.Model):
     title = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='media/categories/', null=True, blank=True)
+    image = models.ImageField(upload_to='categories/', null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -30,7 +30,7 @@ class Recipe(models.Model):
     title = models.CharField('Title', max_length=50, db_index=True)
     short_description = models.CharField(max_length=255)
     content = models.TextField()
-    image = models.ImageField(upload_to='media/recipes/')
+    image = models.ImageField(upload_to='recipes/')
     category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)
     author = models.ForeignKey(USER, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag)

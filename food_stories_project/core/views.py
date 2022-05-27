@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from core.forms import ContactForm
@@ -13,7 +14,7 @@ def home(request):
     # categories = Ca
     return render(request, 'index.html')
 
-
+@login_required
 def contact(request):
     form = ContactForm()
     print(request.POST)
