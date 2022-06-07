@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
-from stories.models import Recipe
+from stories.models import Recipe, Category
 
 
 def stories(request):
@@ -15,6 +16,33 @@ def recipes(request):
         'text': text
     }
     return render(request, 'recipes.html', context)
+
+
+def recipe_detail(request, id):
+    recipe = Recipe.objects.get(id=id)
+    categories = Category.objects.all()
+    context = {
+        'recipe': recipe,
+        'categories': categories
+    }
+    return render(request, 'single.html', context)
+
+
+class RecipeListView(ListView):
+    model = Recipe
+    paginate_by = 1
+    context_object_name = 'recipes'
+    template_name = 'recipes.html'
+
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+    template_name = 'single.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs) # context = { 'recipe': recipe }
+        context['categories'] = Category.objects.all()
+        return context
 
 
 def like_recipe_view(request, id):

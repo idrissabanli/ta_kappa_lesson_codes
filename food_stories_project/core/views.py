@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
+from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib import messages
 
+from core.models import Contact
 from core.forms import ContactForm
 
 
@@ -29,4 +32,15 @@ def contact(request):
         'form': form
     }
     return render(request, 'contact.html', context)
+
+
+
+class ContactView(CreateView):
+    template_name = 'contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Mesajiniz qebul olundu')
+        return super().get_success_url()
 

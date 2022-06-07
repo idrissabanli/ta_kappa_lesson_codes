@@ -38,12 +38,12 @@
                             <div class="text px-md-4 px-lg-5 half pt-3">
                                 <p class="meta d-flex"><span class="pr-3">Dessert</span><span class="ml-auto pl-3">{{ recipe.created_at|date:"F d, Y" }}</span>
                                 </p>
-                                <h3><a href="single.html"> {{ forloop.counter }}. {{recipe.title}}</a></h3>
+                                <h3><a href="{% url 'recipe_detail' recipe.id %}"> {{ forloop.counter }}. {{recipe.title}}</a></h3>
                                 <p>A small river named Duden flows by their place and supplies it with the necessary
                                     regelialia. It is a paradisematic country, in which roasted parts of sentences fly
                                     into your mouth.
                                 </p>
-                                <p class="mb-0"><a href="single.html" class="btn btn-primary">Read More 
+                                <p class="mb-0"><a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">Read More 
                                     <span class="icon-arrow_forward ml-4"></span></a> <a href="{% url 'like_recipe' recipe.id %}" class="btn btn-default">Like</a></p>
                             </div>
                         </div>
@@ -56,13 +56,21 @@
                     <div class="col text-center">
                         <div class="block-27">
                             <ul>
-                                <li><a href="#">&lt;</a></li>
-                                <li class="active"><span>1</span></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">&gt;</a></li>
+                                {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                                {% endif %}
+                                {% for page in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == page %}
+                                        <li class="active"><span>{{ page }}</span></li>
+                                    {% else %}
+                                        <li><a href="?page={{page}}">{{page}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+       
+                                {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
