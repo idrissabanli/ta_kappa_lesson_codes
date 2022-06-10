@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse_lazy
+
 from django.contrib.auth import get_user_model
 
 USER = get_user_model()
@@ -40,6 +42,9 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('recipe_detail', kwargs={'pk': self.id})
 
 # t = Tag.objects.get(id=1) # title = 'food'
 # t.title = 'Tag'

@@ -223,7 +223,7 @@
                     <ul class="categories">
                         <h3 class="heading mb-4">Categories</h3>
                         {% for category in categories %}
-                        <li><a href="#">{{category.title}} <span>({{category.recipes.count}})</span></a></li>
+                        <li><a href="{% url 'recipes' %}?cat={{category.id}}">{{category.title}} <span>({{category.recipes.count}})</span></a></li>
                         {% endfor  %}
                     </ul>
                 </div>
