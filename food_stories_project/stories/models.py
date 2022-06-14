@@ -46,6 +46,7 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('recipe_detail', kwargs={'pk': self.id})
 
+
 # t = Tag.objects.get(id=1) # title = 'food'
 # t.title = 'Tag'
 # print(t.title) # Tag
