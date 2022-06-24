@@ -16,6 +16,18 @@ class RecipeCategorySerializer(serializers.ModelSerializer):
             'updated_at',
         )
 
+
+class CategoryCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = (
+            'id',
+            'title',
+            'image'
+        )
+
+
 class CategorySerializer(serializers.ModelSerializer):
     recipes = serializers.SerializerMethodField()
 

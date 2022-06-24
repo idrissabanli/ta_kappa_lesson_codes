@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'social_django',
     'rest_framework',
+    'django_filters',
 
     'accounts',
     'core',
@@ -51,6 +52,10 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+# }
 
 LOGIN_URL = '/accounts/login/'
 
