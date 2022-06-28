@@ -4,6 +4,7 @@ from rest_framework.generics import (
 import django_filters.rest_framework
 from rest_framework import filters
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from stories.models import Recipe, Category
 from stories.api.serializers import (
     RecipeReadSerializer, RecipeCreateSerializer, 
@@ -28,6 +29,7 @@ class GenericAPIViewSerializerMixin:
 
 class RecipeAPI(GenericAPIViewSerializerMixin, ListCreateAPIView):
     queryset = Recipe.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = [filters.SearchFilter, django_filters.rest_framework.DjangoFilterBackend,]
     filterset_fields = ['category__title', 'author']
     search_fields = ['title',]

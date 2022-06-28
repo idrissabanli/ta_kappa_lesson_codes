@@ -63,6 +63,7 @@ class RecipeReadSerializer(serializers.ModelSerializer):
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -76,3 +77,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         )
+    
+    def validate(self, data):
+        request = self.context['request']
+        data['author'] = request.user
+        return super().validate(data)
