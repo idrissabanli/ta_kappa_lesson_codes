@@ -30,6 +30,7 @@ class Tag(models.Model):
 
 class Recipe(models.Model):
     title = models.CharField('Title', max_length=50, db_index=True)
+    slug = models.SlugField('Slug', max_length=80, db_index=True)
     short_description = models.CharField(max_length=255)
     content = models.TextField()
     image = models.ImageField(upload_to='recipes/')
@@ -45,6 +46,10 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('recipe_detail', kwargs={'pk': self.id})
+
+    # def save(self):
+    #     self.slug = self.title
+    #     return super().save()
 
 
 # t = Tag.objects.get(id=1) # title = 'food'

@@ -23,7 +23,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'category', 'created_at')
     fieldsets = (
         ('Informations', {
-            'fields': ('title', 'content', 'image', 'short_description', )
+            'fields': ('title', 'slug', 'content', 'image', 'short_description', )
         }),
         ('Relations', {
             'fields': ('tags', ('category', 'author', )),

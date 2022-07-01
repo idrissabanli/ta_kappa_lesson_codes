@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-8d5hc9(u5d7&=k)w217!bzn581n-b4mzz9u!5rbj@nn4-sm0u8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'food_stories.middlewares.blacklist_ip_middleware.BlackListIPMiddleware'
 ]
 
 SIMPLE_JWT = {
