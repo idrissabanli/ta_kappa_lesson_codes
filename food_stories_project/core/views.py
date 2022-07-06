@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -41,6 +42,6 @@ class ContactView(CreateView):
     success_url = reverse_lazy('home')
 
     def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, 'Mesajiniz qebul olundu')
+        messages.add_message(self.request, messages.SUCCESS, _('Mesajiniz qebul olundu'))
         return super().get_success_url()
 

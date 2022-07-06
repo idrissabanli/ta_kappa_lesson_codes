@@ -1,4 +1,6 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
+
 from stories.models import Category, Tag, Recipe
 
 
@@ -10,14 +12,12 @@ class RecipeInlineAdmin(admin.TabularInline):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     inlines = (RecipeInlineAdmin, )
-
-    
 
 
 @admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
+class RecipeAdmin(TranslationAdmin):
     search_fields = ('title', 'category__title', 'author__username')
     list_filter = ('category', 'author__username')
     list_display = ('title', 'author', 'category', 'created_at')
@@ -30,6 +30,3 @@ class RecipeAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         })
         )
-
-
-
