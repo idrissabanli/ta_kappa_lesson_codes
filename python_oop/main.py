@@ -25,7 +25,7 @@ class Person:
 
 class Resul(Person):
 
-    def __birthday(self):
+    def birthday(self):
         self._age = 3
 
 p = Person(name='Resul')
