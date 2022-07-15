@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_simplejwt',
     "corsheaders",
+    'django_celery_beat',
     
 
     'accounts',
@@ -138,6 +139,17 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'accounts.pipeline.get_avatar', # This is the path of your pipeline.py
 )
+
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Baku'
+
+# 1. background task
+# 2. paralel
+# 3. schedule 
 
 # SOCIAL_AUTH_PIPELINE = (
 
@@ -258,5 +270,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER ='idris.sabanli@gmail.com'
-EMAIL_HOST_PASSWORD = 'fnvfbjvmdfnjclis'
+EMAIL_HOST_USER ='dadashbeyli93@gmail.com'
+EMAIL_HOST_PASSWORD = 'eibavvquuowmcuov'

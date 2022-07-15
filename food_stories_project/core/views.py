@@ -9,6 +9,8 @@ from django.contrib import messages
 from core.models import Contact
 from core.forms import ContactForm
 
+# from core.tasks import export
+
 
 # def home(request):
 #     return HttpResponse('Welcome to my page')
@@ -45,3 +47,9 @@ class ContactView(CreateView):
         messages.add_message(self.request, messages.SUCCESS, _('Mesajiniz qebul olundu'))
         return super().get_success_url()
 
+
+# def export_view(request):
+#     print('here')
+#     export.delay()
+#     print('here 2')
+#     return HttpResponse('<h1>Export edildi</h1>')

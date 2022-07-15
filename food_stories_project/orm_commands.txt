@@ -193,7 +193,7 @@ AttributeError: 'Category' object has no attribute 'recipe'
 <QuerySet [{'title': 'Cat 4'}, {'title': 'Cat 3'}, {'title': 'Cat 2'}, {'title': 'Cat 1'}]>
 >>> Category.objects.all()
 <QuerySet [<Category: Cat 4>, <Category: Cat 3>, <Category: Cat 2>, <Category: Cat 1>]>
->>> Category.objects.values_list('title')
+>>> Category.objects.values_list('title',)
 <QuerySet [('Cat 4',), ('Cat 3',), ('Cat 2',), ('Cat 1',)]>
 >>> Recipe.objects.all()
 <QuerySet [<Recipe: recipe #1>, <Recipe: Recipe #2>]>
