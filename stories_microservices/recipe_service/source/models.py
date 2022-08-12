@@ -45,7 +45,7 @@ recipies_tags = db.Table('recipies_tags', db.Model.metadata,
 
 class Tag(SaveMixin):
     title = db.Column(db.String(50), nullable=False)
-    # stories = db.relationship("Story", secondary=stories_tags, back_populates="tags")
+    recipes = db.relationship("Recipe", secondary=recipies_tags, back_populates="tags")
 
 
 class Recipe(SaveMixin):
@@ -53,7 +53,7 @@ class Recipe(SaveMixin):
     slug = db.Column(db.String(255), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     category = db.relationship("Category", backref='recipes')
-    tags = db.relationship("Tag", secondary=recipies_tags, back_populates="stories")
+    tags = db.relationship("Tag", secondary=recipies_tags, back_populates="recipes")
     author_id = db.Column(db.Integer, nullable=False)
     # author = db.relationship("User", backref='stories')
     image = db.Column(db.String(255), nullable=False)
