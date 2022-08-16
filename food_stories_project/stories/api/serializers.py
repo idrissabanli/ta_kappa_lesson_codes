@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from drf_yasg.utils import swagger_serializer_method
 from stories.models import Recipe, Category
 
 
@@ -40,6 +41,7 @@ class CategorySerializer(serializers.ModelSerializer):
             'recipes'
         )
     
+    @swagger_serializer_method(serializer_or_field=RecipeCategorySerializer(many=True))
     def get_recipes(self, obj):
         serializer = RecipeCategorySerializer(obj.recipes.all(), context=self.context, many=True)
         return serializer.data

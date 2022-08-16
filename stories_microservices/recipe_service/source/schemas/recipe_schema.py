@@ -8,6 +8,7 @@ from config.extentions import ma
 
 class RecipeSchema(ma.SQLAlchemyAutoSchema):
     category = fields.Method("get_category")
+    author_id = fields.Int(dump_only=True, )
     slug = fields.Str(dump_only=True)
     image = AbsoluteURLFor('uploaded_file', filename='<image>')
     
