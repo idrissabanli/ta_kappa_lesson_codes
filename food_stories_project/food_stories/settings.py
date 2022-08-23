@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8d5hc9(u5d7&=k)w217!bzn581n-b4mzz9u!5rbj@nn4-sm0u8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('DEBUG') else True
 
 ALLOWED_HOSTS = ['*']
 
@@ -141,8 +141,8 @@ SOCIAL_AUTH_PIPELINE = (
     'accounts.pipeline.get_avatar', # This is the path of your pipeline.py
 )
 
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+BROKER_URL = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:6379"
+CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:6379"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -198,11 +198,11 @@ WSGI_APPLICATION = 'food_stories.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tech',
-        'USER': 'user',
-        'PORT': 5432,
-        'HOST': 'localhost',
-        'PASSWORD': '12345'
+        'NAME': os.environ.get('POSTGRES_DB', 'tech'),
+        'USER': os.environ.get('POSTGRES_USER','user'),
+        'PORT': os.environ.get('POSTGRES_PORT', 5432),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '12345')
     }
 }
 

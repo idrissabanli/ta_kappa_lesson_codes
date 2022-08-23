@@ -10,16 +10,30 @@ services:
       - ./pgdb:/var/lib/postgresql/data
     ports: 
       - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_USER: user
-      POSTGRES_DB: tech
+    env_file: .env
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+
+  web:
+    build: .
+    volumes: 
+      - ./media:/code/media
+    ports: 
+      - 8001:8000
+    depends_on: 
+      - "db"
+    env_file: .env
+
+  celery:
+    build: 
+      context: .
+      dockerfile: celery.dockerfile
+    volumes: 
+      - ./media:/code/media
+    command: celery -A food_stories worker --beat --scheduler django --loglevel=info
+    depends_on: 
+      - "db"
+      - "redisdb"
+    env_file: .env
 
   redisdb:
     image: redis
