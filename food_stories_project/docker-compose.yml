@@ -3,6 +3,16 @@ version: '3.1'
 
 services:
 
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - "web"
+    volumes:
+      - ./static/:/code/static/
+      - ./media/:/code/media/
+
   db:
     image: postgres
     restart: always
@@ -12,13 +22,13 @@ services:
       - 5432:5432
     env_file: .env
 
-
   web:
     build: .
     volumes: 
       - ./media:/code/media
+    command: gunicorn food_stories.wsgi:application --bind 0.0.0.0:8000
     ports: 
-      - 8001:8000
+      - 8000:8000
     depends_on: 
       - "db"
     env_file: .env
